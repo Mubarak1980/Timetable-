@@ -1,8 +1,7 @@
-
 {
   "name": "Exam Plan — Physics Chemistry Biology",
   "short_name": "Exam Plan",
-  "start_url": "study-plan.html",
+  "start_url": "index.html",
   "scope": "./",
   "display": "standalone",
   "background_color": "#0f1318",
