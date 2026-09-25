@@ -1,6 +1,6 @@
 var CACHE_NAME = 'exam-plan-cache-v1';
 var FILES_TO_CACHE = [
-  'study-plan.html',
+  'index.html',
   'study-plan-manifest.json',
   'study-icon-192.png',
   'study-icon-512.png'
@@ -42,4 +42,3 @@ self.addEventListener('fetch', function(event){
     })
   );
 });
-        
