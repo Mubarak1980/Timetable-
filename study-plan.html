@@ -1,1 +1,38 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Exam Plan</title>
+<meta name="theme-color" content="#12161c">
+<link rel="manifest" href="study-plan-manifest.json">
+<link rel="icon" href="study-icon-192.png">
+<style>
+  :root{
+    --bg:#0f1318; --panel:#171d25; --panel2:#1c2330; --line:#2a323d;
+    --ink:#eef1f5; --sub:#8b96a5;
+    --phys:#5b8dee; --chem:#4fb87a; --bio:#e0a53f; --good:#4fb87a; --bad:#e0703f;
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]){
+      --bg:#f5f2ea; --panel:#ffffff; --panel2:#faf8f2; --line:#e3ddcf; --ink:#1c1f24; --sub:#6b7280;
+    }
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  html{scroll-padding-top:env(safe-area-inset-top,0px)}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:"Iowan Old Style","Georgia",serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .sans{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+  .wrap{max-width:560px;margin:0 auto;padding:16px 18px 44px}
+
+  header{padding:16px 2px 14px;display:flex;justify-content:space-between;align-items:flex-start}
+  h1{font-size:21px;margin:0 0 3px;font-weight:700;letter-spacing:.2px}
+  .tag{color:var(--sub);font-size:12.5px}
