@@ -163,9 +163,9 @@
 <script>
 (function(){
   var SUBJECTS = [
-    {key:'phys', name:'Physics',   color:'#5b8dee', per:3, total:755},
-    {key:'chem', name:'Chemistry', color:'#4fb87a', per:3, total:915},
-    {key:'bio',  name:'Biology',   color:'#e0a53f', per:3, total:812}
+    {key:'phys', name:'Physics',   color:'#5b8dee', per:3, total:755, grades:[249,329,177]},
+    {key:'chem', name:'Chemistry', color:'#4fb87a', per:3, total:915, grades:[298,330,287]},
+    {key:'bio',  name:'Biology',   color:'#e0a53f', per:3, total:812, grades:[174,284,354]}
   ];
   var TOTAL_PAGES = 2482;
   var TOTAL_DAYS = 300;
@@ -289,7 +289,8 @@
           '<span class="pct" style="color:'+s.color+'">'+p+'%</span>'+
         '</div>'+
         '<div class="sbar-track"><div class="sbar-fill" style="width:'+p+'%;background:'+s.color+'"></div></div>'+
-        '<div class="amt" style="text-align:right;margin-top:4px">'+v+' / '+s.total+' pages</div>';
+        '<div class="amt" style="text-align:right;margin-top:4px">'+v+' / '+s.total+' pages</div>'+
+        '<div class="amt" style="margin-top:2px">G10 '+s.grades[0]+' · G11 '+s.grades[1]+' · G12 '+s.grades[2]+'</div>';
       totalsEl.appendChild(row);
     });
   }
