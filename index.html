@@ -119,6 +119,7 @@
     <div class="info sans">
       <div class="day">Day <span id="dayNum">1</span><span style="color:var(--sub);font-weight:400"> / 300</span></div>
       <div class="status" id="statusText">Start logging to begin tracking</div>
+      <div class="status sans" id="predictText" style="color:var(--sub)"></div>
     </div>
   </div>
 
@@ -223,6 +224,28 @@
     } else {
       st.textContent = Math.abs(diffPages) + ' pages behind schedule';
       st.className = 'status bad sans';
+    }
+
+    var pr = document.getElementById('predictText');
+    var loggedDays = Object.keys(state.logs).length;
+    var remaining = TOTAL_PAGES - sums.all;
+    if(loggedDays < 3 || sums.all === 0){
+      pr.textContent = '';
+    } else if(remaining <= 0){
+      pr.textContent = 'All pages complete';
+    } else {
+      var avgPace = sums.all / loggedDays;
+      var daysNeeded = Math.ceil(remaining / avgPace);
+      var finishDate = new Date(Date.now() + daysNeeded * DAY_MS);
+      var deadline = new Date(state.startDate + (TOTAL_DAYS - 1) * DAY_MS);
+      var opts = { month:'short', day:'numeric' };
+      var finishStr = finishDate.toLocaleDateString(undefined, opts);
+      var lateBy = Math.round((finishDate - deadline) / DAY_MS);
+      if(lateBy <= 0){
+        pr.textContent = 'At this pace (' + avgPace.toFixed(1) + '/day), finishing ' + finishStr + ' — on time';
+      } else {
+        pr.textContent = 'At this pace (' + avgPace.toFixed(1) + '/day), finishing ' + finishStr + ' — ' + lateBy + ' days late';
+      }
     }
 
     var already = !!state.logs[todayStr()];
