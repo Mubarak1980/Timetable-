@@ -67,6 +67,13 @@
   .cardhead .s{font-size:12px;color:var(--sub)}
 
   .subj{display:flex;align-items:center;gap:10px;padding:8px 0}
+  .subj.priority-row{background:var(--panel2);border-radius:10px;padding:8px 10px;margin:0 -10px}
+  .priority{
+    display:none;font-size:12.5px;color:var(--sub);
+    background:var(--panel2);border-radius:10px;padding:9px 11px;margin-bottom:10px;
+  }
+  .priority.show{display:block}
+  .priority b{color:var(--ink)}
   .dot{width:9px;height:9px;border-radius:50%;flex:0 0 auto}
   .subj .name{flex:1;font-size:14px}
   .bar{flex:1;height:6px;border-radius:4px;background:var(--line);overflow:hidden;max-width:80px}
@@ -137,6 +144,7 @@
       <div class="t">Today's target — <span id="targetNum">17</span> pages</div>
       <div class="s" id="passLabel"></div>
     </div>
+    <div class="priority sans" id="priorityBox"></div>
     <div id="subjectList"></div>
     <button id="logBtn">Log today's pages</button>
     <div class="offline sans" id="offlineNote"></div>
@@ -258,12 +266,30 @@
     }
 
     var already = !!state.logs[todayStr()];
+
+    // Which subject is most behind its own pace
+    var priority = null, worstDeficit = Infinity;
+    SUBJECTS.forEach(function(s){
+      var expectedSubj = di * s.per;
+      var deficit = (sums[s.key] || 0) - expectedSubj;
+      if(deficit < worstDeficit){ worstDeficit = deficit; priority = s; }
+    });
+    var pbox = document.getElementById('priorityBox');
+    if(sums.all === 0 || worstDeficit >= 0){
+      pbox.classList.remove('show');
+    } else {
+      pbox.classList.add('show');
+      pbox.innerHTML = 'Focus today: <b style="color:'+priority.color+'">'+priority.name+'</b> — ' +
+        Math.abs(worstDeficit) + ' pages behind its own pace';
+    }
+
     var listEl = document.getElementById('subjectList');
     listEl.innerHTML = '';
     var todays = state.logs[todayStr()] || {};
     SUBJECTS.forEach(function(s){
       var row = document.createElement('div');
-      row.className = 'subj sans';
+      var isPriority = priority && s.key === priority.key && worstDeficit < 0 && sums.all > 0;
+      row.className = 'subj sans' + (isPriority ? ' priority-row' : '');
       row.innerHTML =
         '<span class="dot" style="background:'+s.color+'"></span>'+
         '<span class="name">'+s.name+' <span style="color:var(--sub)">('+s.per+')</span></span>'+
