@@ -102,7 +102,7 @@
   <header>
     <div>
       <h1>Physics · Chemistry · Biology</h1>
-      <div class="tag sans">Two-pass plan · grades 10–12</div>
+      <div class="tag sans">Single pass · 300 days · grades 10–12</div>
     </div>
     <div class="streak sans">
       <div class="n" id="streakN">0</div>
@@ -125,7 +125,7 @@
   <div class="card">
     <div class="cardhead">
       <div class="t">Today's target — <span id="targetNum">17</span> pages</div>
-      <div class="s" id="passLabel">Pass 1</div>
+      <div class="s" id="passLabel"></div>
     </div>
     <div id="subjectList"></div>
     <button id="logBtn">Log today's pages</button>
@@ -138,13 +138,13 @@
   </div>
 
   <div class="card">
-    <div class="cardhead"><div class="t">By grade, per pass</div></div>
+    <div class="cardhead"><div class="t">By grade</div></div>
     <div class="grades sans">
-      <div class="grow"><span>Grade 10</span><span class="g">721 pages · 42 days</span></div>
-      <div class="grow"><span>Grade 11</span><span class="g">943 pages · 56 days</span></div>
-      <div class="grow"><span>Grade 12</span><span class="g">818 pages · 48 days</span></div>
+      <div class="grow"><span>Grade 10</span><span class="g">721 pages · 87 days</span></div>
+      <div class="grow"><span>Grade 11</span><span class="g">943 pages · 114 days</span></div>
+      <div class="grow"><span>Grade 12</span><span class="g">818 pages · 99 days</span></div>
     </div>
-    <div class="note">17 pages/day · 146 days per pass · 8 buffer days across 300</div>
+    <div class="note">9 pages/day · covers all 2,482 pages with buffer days to spare</div>
   </div>
 
   <button class="ghost sans" id="resetBtn">Reset all progress</button>
@@ -153,14 +153,13 @@
 <script>
 (function(){
   var SUBJECTS = [
-    {key:'phys', name:'Physics',   color:'#5b8dee', per:5, total:1510},
-    {key:'chem', name:'Chemistry', color:'#4fb87a', per:6, total:1830},
-    {key:'bio',  name:'Biology',   color:'#e0a53f', per:6, total:1624}
+    {key:'phys', name:'Physics',   color:'#5b8dee', per:3, total:755},
+    {key:'chem', name:'Chemistry', color:'#4fb87a', per:3, total:915},
+    {key:'bio',  name:'Biology',   color:'#e0a53f', per:3, total:812}
   ];
-  var TOTAL_PAGES = 4964;
+  var TOTAL_PAGES = 2482;
   var TOTAL_DAYS = 300;
-  var DAILY = 17;
-  var PASS_PAGES = 2482;
+  var DAILY = 9;
   var DAY_MS = 86400000;
 
   var state = null;
@@ -208,10 +207,7 @@
     var expected = Math.min(TOTAL_PAGES, di * DAILY);
     var diffPages = sums.all - expected;
     var pct = Math.round((sums.all / TOTAL_PAGES) * 100);
-    var pass = sums.all >= PASS_PAGES ? 2 : 1;
-
     document.getElementById('dayNum').textContent = di;
-    document.getElementById('passLabel').textContent = 'Pass ' + pass;
     document.getElementById('targetNum').textContent = DAILY;
     document.getElementById('ring').style.setProperty('--pct', Math.min(100,pct));
     document.getElementById('ringPct').textContent = pct + '%';
