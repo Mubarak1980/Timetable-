@@ -115,6 +115,7 @@
   .plan-table tbody tr:last-child td{border-bottom:1px solid var(--line)}
   .plan-table .sname{display:flex;align-items:center;gap:7px;text-align:left}
   .plan-table tfoot td{padding-top:9px;font-weight:700;color:var(--ink);border-bottom:none}
+  .plan-table tr.today td{font-weight:700;color:var(--ink)}
   .grow{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-size:13px}
   .grow:last-child{border-bottom:none}
   .grow .g{color:var(--sub)}
@@ -176,6 +177,15 @@
       </tfoot>
     </table>
     <div class="note">13 pages/day, 4 subjects together · 290 days to finish · 10 buffer days across 300</div>
+  </div>
+
+  <div class="card">
+    <div class="cardhead"><div class="t">Weekly focus</div></div>
+    <table class="plan-table sans">
+      <thead><tr><th>Day</th><th>Extra focus</th></tr></thead>
+      <tbody id="weekTableBody"></tbody>
+    </table>
+    <div class="note">All 4 subjects every day — this just flags which one gets a bit more attention that day.</div>
   </div>
 
   <button class="ghost sans" id="resetBtn">Reset all progress</button>
@@ -391,10 +401,34 @@
     });
   }
 
+  // Sun=0 ... Sat=6. Weighted so Math (biggest subject) gets 2 focus days.
+  var WEEK_FOCUS = ['math','phys','chem','math','bio','chem','bio'];
+  var DAY_NAMES = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+  function buildWeekTable(){
+    var body = document.getElementById('weekTableBody');
+    body.innerHTML = '';
+    var todayIdx = new Date().getDay();
+    var byKey = {};
+    SUBJECTS.forEach(function(s){ byKey[s.key] = s; });
+
+    WEEK_FOCUS.forEach(function(key, i){
+      var s = byKey[key];
+      var row = document.createElement('tr');
+      if(i === todayIdx) row.className = 'today';
+      row.innerHTML =
+        '<td>'+DAY_NAMES[i]+(i===todayIdx ? ' (today)' : '')+'</td>'+
+        '<td><span class="sname" style="justify-content:flex-end"><span class="dot" style="background:'+s.color+'"></span>'+s.name+'</span></td>';
+      body.appendChild(row);
+    });
+  }
+
   buildPlanTable();
+  buildWeekTable();
   load();
   render();
 })();
 </script>
 </body>
-</html>
+    </html>
+      
