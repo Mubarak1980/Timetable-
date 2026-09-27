@@ -105,7 +105,16 @@
   }
   .install.show{display:block}
 
-  .grades{display:flex;flex-direction:column}
+  .plan-table{width:100%;border-collapse:collapse;font-size:12.5px}
+  .plan-table th{
+    text-align:right;font-weight:600;color:var(--sub);font-size:11px;
+    padding:0 0 8px;border-bottom:1px solid var(--line);
+  }
+  .plan-table th:first-child, .plan-table td:first-child{text-align:left}
+  .plan-table td{padding:9px 0;text-align:right;border-bottom:1px solid var(--line)}
+  .plan-table tbody tr:last-child td{border-bottom:1px solid var(--line)}
+  .plan-table .sname{display:flex;align-items:center;gap:7px;text-align:left}
+  .plan-table tfoot td{padding-top:9px;font-weight:700;color:var(--ink);border-bottom:none}
   .grow{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-size:13px}
   .grow:last-child{border-bottom:none}
   .grow .g{color:var(--sub)}
@@ -156,13 +165,17 @@
   </div>
 
   <div class="card">
-    <div class="cardhead"><div class="t">By grade</div></div>
-    <div class="grades sans">
-      <div class="grow"><span>Grade 10</span><span class="g">1,106 pages · 88 days</span></div>
-      <div class="grow"><span>Grade 11</span><span class="g">1,422 pages · 113 days</span></div>
-      <div class="grow"><span>Grade 12</span><span class="g">1,234 pages · 99 days</span></div>
-    </div>
-    <div class="note">13 pages/day · covers all 3,762 pages with buffer days to spare</div>
+    <div class="cardhead"><div class="t">Reading plan</div></div>
+    <table class="plan-table sans">
+      <thead>
+        <tr><th>Subject</th><th>G10</th><th>G11</th><th>G12</th><th>Total</th><th>/day</th></tr>
+      </thead>
+      <tbody id="planTableBody"></tbody>
+      <tfoot>
+        <tr><td>Total</td><td>1,106</td><td>1,422</td><td>1,234</td><td>3,762</td><td>13</td></tr>
+      </tfoot>
+    </table>
+    <div class="note">13 pages/day, 4 subjects together · 290 days to finish · 10 buffer days across 300</div>
   </div>
 
   <button class="ghost sans" id="resetBtn">Reset all progress</button>
@@ -171,10 +184,10 @@
 <script>
 (function(){
   var SUBJECTS = [
+    {key:'math', name:'Mathematics',color:'#9b7fd4', per:4, total:1280, grades:[385,479,416]},
     {key:'phys', name:'Physics',    color:'#5b8dee', per:3, total:755,  grades:[249,329,177]},
     {key:'chem', name:'Chemistry',  color:'#4fb87a', per:3, total:915,  grades:[298,330,287]},
-    {key:'bio',  name:'Biology',    color:'#e0a53f', per:3, total:812,  grades:[174,284,354]},
-    {key:'math', name:'Mathematics',color:'#9b7fd4', per:4, total:1280, grades:[385,479,416]}
+    {key:'bio',  name:'Biology',    color:'#e0a53f', per:3, total:812,  grades:[174,284,354]}
   ];
   var TOTAL_PAGES = 3762;
   var TOTAL_DAYS = 300;
@@ -316,8 +329,7 @@
           '<span class="pct" style="color:'+s.color+'">'+p+'%</span>'+
         '</div>'+
         '<div class="sbar-track"><div class="sbar-fill" style="width:'+p+'%;background:'+s.color+'"></div></div>'+
-        '<div class="amt" style="text-align:right;margin-top:4px">'+v+' / '+s.total+' pages</div>'+
-        '<div class="amt" style="margin-top:2px">G10 '+s.grades[0]+' · G11 '+s.grades[1]+' · G12 '+s.grades[2]+'</div>';
+        '<div class="amt" style="text-align:right;margin-top:4px">'+v+' / '+s.total+' pages</div>';
       totalsEl.appendChild(row);
     });
   }
@@ -363,10 +375,26 @@
     });
   }
 
+  function buildPlanTable(){
+    var body = document.getElementById('planTableBody');
+    body.innerHTML = '';
+    SUBJECTS.forEach(function(s){
+      var row = document.createElement('tr');
+      row.innerHTML =
+        '<td><span class="sname"><span class="dot" style="background:'+s.color+'"></span>'+s.name+'</span></td>'+
+        '<td>'+s.grades[0].toLocaleString()+'</td>'+
+        '<td>'+s.grades[1].toLocaleString()+'</td>'+
+        '<td>'+s.grades[2].toLocaleString()+'</td>'+
+        '<td>'+s.total.toLocaleString()+'</td>'+
+        '<td>'+s.per+'</td>';
+      body.appendChild(row);
+    });
+  }
+
+  buildPlanTable();
   load();
   render();
 })();
 </script>
 </body>
-  </html>
-      
+</html>
