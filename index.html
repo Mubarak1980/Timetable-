@@ -118,7 +118,7 @@
   <header>
     <div>
       <h1>Physics · Chemistry · Biology</h1>
-      <div class="tag sans">Single pass · 300 days · grades 10–12</div>
+      <div class="tag sans">Single pass · 300 days · grades 10–12 · 4 subjects</div>
     </div>
     <div class="streak sans">
       <div class="n" id="streakN">0</div>
@@ -158,11 +158,11 @@
   <div class="card">
     <div class="cardhead"><div class="t">By grade</div></div>
     <div class="grades sans">
-      <div class="grow"><span>Grade 10</span><span class="g">721 pages · 87 days</span></div>
-      <div class="grow"><span>Grade 11</span><span class="g">943 pages · 114 days</span></div>
-      <div class="grow"><span>Grade 12</span><span class="g">818 pages · 99 days</span></div>
+      <div class="grow"><span>Grade 10</span><span class="g">1,106 pages · 88 days</span></div>
+      <div class="grow"><span>Grade 11</span><span class="g">1,422 pages · 113 days</span></div>
+      <div class="grow"><span>Grade 12</span><span class="g">1,234 pages · 99 days</span></div>
     </div>
-    <div class="note">9 pages/day · covers all 2,482 pages with buffer days to spare</div>
+    <div class="note">13 pages/day · covers all 3,762 pages with buffer days to spare</div>
   </div>
 
   <button class="ghost sans" id="resetBtn">Reset all progress</button>
@@ -171,13 +171,14 @@
 <script>
 (function(){
   var SUBJECTS = [
-    {key:'phys', name:'Physics',   color:'#5b8dee', per:3, total:755, grades:[249,329,177]},
-    {key:'chem', name:'Chemistry', color:'#4fb87a', per:3, total:915, grades:[298,330,287]},
-    {key:'bio',  name:'Biology',   color:'#e0a53f', per:3, total:812, grades:[174,284,354]}
+    {key:'phys', name:'Physics',    color:'#5b8dee', per:3, total:755,  grades:[249,329,177]},
+    {key:'chem', name:'Chemistry',  color:'#4fb87a', per:3, total:915,  grades:[298,330,287]},
+    {key:'bio',  name:'Biology',    color:'#e0a53f', per:3, total:812,  grades:[174,284,354]},
+    {key:'math', name:'Mathematics',color:'#9b7fd4', per:4, total:1280, grades:[385,479,416]}
   ];
-  var TOTAL_PAGES = 2482;
+  var TOTAL_PAGES = 3762;
   var TOTAL_DAYS = 300;
-  var DAILY = 9;
+  var DAILY = 13;
   var DAY_MS = 86400000;
 
   var state = null;
@@ -207,7 +208,7 @@
   }
 
   function totals(){
-    var sums = {phys:0, chem:0, bio:0, all:0};
+    var sums = {phys:0, chem:0, bio:0, math:0, all:0};
     Object.keys(state.logs).forEach(function(k){
       var l = state.logs[k];
       SUBJECTS.forEach(function(s){
@@ -367,4 +368,5 @@
 })();
 </script>
 </body>
-</html>
+  </html>
+      
