@@ -226,8 +226,15 @@
     try{ localStorage.setItem('examPlanState2', JSON.stringify(state)); }catch(e){}
   }
 
+  function dateOnly(ms){
+    var d = new Date(ms);
+    return new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
+  }
+
   function dayIndex(){
-    var diff = Math.floor((Date.now() - state.startDate) / DAY_MS) + 1;
+    var startDay = dateOnly(state.startDate);
+    var today = dateOnly(Date.now());
+    var diff = Math.round((today - startDay) / DAY_MS) + 1;
     return Math.max(1, Math.min(TOTAL_DAYS, diff));
   }
 
